@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UDAANKOSH — Indian Airfare Price Intelligence Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="style.css?v=20260910-finalfix" rel="stylesheet">
+</head>
+<body>
+<video class="sky-video" width="1280" height="722" autoplay muted loop playsinline preload="auto" src="hero-bg.mp4"></video>
+<div class="sky-poster"></div>
+<div class="sky-overlay"></div>
+
+<div class="page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      <svg class="logo-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M2 16l20-8-6 8 6 8-20-8 6-8-6 8z" transform="rotate(-45 12 12)"/>
+      </svg>
+      <span>UDAANKOSH</span>
+    </div>
+    <div class="nav-links">
+      <a href="#top">Home</a>
+      <a href="#about">About</a>
+      <a href="#query">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-search">
+      <span>Search</span>
+      <span class="search-icon-wrap">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" class="hero">
+    <h1 class="hero-title">UDAANKOSH</h1>
+    <p class="hero-subtitle">Indian Airfare Price Intelligence Engine</p>
+    <div class="hero-pills">
+      <span class="pill">MoSPI/CPI Framework</span>
+      <span class="pill">Logistics Formula</span>
+      <span class="pill">DGCA Traffic Weighted</span>
+    </div>
+  </header>
+
+  <section class="index-hero-card" id="indexHero" aria-label="UDAANKOSH airfare index">
+    <div class="index-hero-copy">
+      <div class="eyebrow">INDIA AIRFARE INDEX</div>
+      <h2 id="heroIndexValue">—</h2>
+      <div class="index-state" id="heroIndexState">BASELINE BUILDING</div>
+      <p id="heroIndexMessage">The index becomes calculable after at least two successful observation periods.</p>
+    </div>
+    <div class="index-hero-meta">
+      <div><span>HORIZON</span><strong>T+1</strong></div>
+      <div><span>BASE</span><strong id="heroIndexBase">—</strong></div>
+      <div><span>CURRENT</span><strong id="heroIndexCurrent">—</strong></div>
+      <div><span>COVERAGE</span><strong id="heroIndexCoverage">0 / 8</strong></div>
+    </div>
+  </section>
+
+  <section class="fare-terrain card" id="fareTerrain" aria-label="Three dimensional fare terrain">
+    <div class="terrain-header">
+      <div>
+        <div class="eyebrow">MARKET TERRAIN</div>
+        <h2>3D fare landscape</h2>
+        <p>Observed median total fares across the live eight-route basket and five booking horizons.</p>
+      </div>
+      <span class="terrain-badge">LIVE DB</span>
+    </div>
+    <div class="terrain-stage">
+      <div class="terrain-axis-y">₹ median fare</div>
+      <div class="terrain-grid" id="terrainGrid"></div><div class="terrain-labels" id="terrainLabels"></div>
+    </div>
+    <p class="terrain-note">Height represents fare level only. The Airfare Price Index remains separately calculated from route medians, DGCA traffic weights, and historical observation periods.</p>
+  </section>
+
+  <section class="home-summary" id="homeSummary" aria-label="Current database summary">
+    <div><span>Airfare index</span><strong id="homeIndex">—</strong></div>
+    <div><span>Observations</span><strong id="homeQuotes">—</strong></div>
+    <div><span>Tracked routes</span><strong id="homeRoutes">—</strong></div>
+    <div><span>Active sources</span><strong id="homeSources">—</strong></div>
+  </section>
+
+  <!-- CORRIDOR QUERY CARD -->
+  <main class="cards-wrap">
+    <section id="query" class="card query-card">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="card-header">
+        <h2>Corridor Intelligence Query</h2>
+        <p>Analyze airfare trends across Indian domestic corridors</p>
+      </div>
+
+      <form class="query-form" id="queryForm">
+        <div class="field">
+          <label for="origin">Departure / Origin</label>
+          <div class="select-wrap">
+            <select id="origin" required>
+              <option value="" selected disabled>Select departure airport</option>
+            </select>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="field">
+          <label for="destination">Arrival / Destination</label>
+          <div class="select-wrap">
+            <select id="destination" required>
+              <option value="" selected disabled>Select arrival airport</option>
+            </select>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="field">
+          <label for="depDate">Departure date</label>
+          <input type="date" id="depDate" readonly aria-readonly="true" />
+          <p class="field-hint" id="dateHint">Select a horizon to calculate departure date from the latest collection.</p>
+        </div>
+        <div class="field">
+          <label for="horizon">Advance purchase window</label>
+          <div class="select-wrap">
+            <select id="horizon" required>
+              <option value="" selected disabled>Select advance window</option>
+              <option value="1">T+1 day</option>
+              <option value="7">T+7 days</option>
+              <option value="15">T+15 days</option>
+              <option value="30">T+30 days</option>
+              <option value="45">T+45 days</option>
+            </select>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="field">
+          <label for="cabin">Cabin</label>
+          <div class="select-wrap">
+            <select id="cabin" required>
+            <option value="" selected disabled>Select cabin</option>
+            <option value="economy">Economy</option>
+            <option disabled>Premium Economy — coming soon</option>
+            <option disabled>Business — coming soon</option>
+            <option disabled>First Class — coming soon</option>
+            </select>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </form>
+
+      <div class="query-actions">
+        <button type="button" class="btn btn-dark" id="inputRouteBtn">Input Route</button>
+        <button type="button" class="btn btn-blue" id="computeFareBtn">
+          Compute Fare Intelligence
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button type="button" class="btn btn-dark" id="exportRouteCsvBtn">Export selected route CSV</button>
+      </div>
+
+      <p class="small-note main-page-note">Full database export: use Source Health → Download all raw flight quotes (entire DB). Route-specific export: use the button above after selecting a route and horizon.</p>
+
+      <section class="home-explainer" aria-label="How to use UDAANKOSH">
+        <div class="eyebrow">HOW TO USE</div>
+        <div class="home-explainer-grid">
+          <div class="home-explainer-card">
+            <h3>Query airfare intelligence</h3>
+            <p>Select a route, horizon, and cabin to compare real fare medians, source coverage, and market index movement.</p>
+          </div>
+          <div class="home-explainer-card">
+            <h3>Export what you need</h3>
+            <p>Use the selected route CSV for one corridor, or open Source Health to download every raw flight quote from the full database.</p>
+          </div>
+          <div class="home-explainer-card">
+            <h3>Forecast status</h3>
+            <p>The forecast page shows the live route forecast with the trained model when available, and a recent-median baseline fallback when a route lacks enough usable coverage.</p>
+          </div>
+        </div>
+      </section>
+
+      <button type="button" class="overview-entry" id="overviewBtn">Explore all-route market overview <span>→</span></button>
+      <button type="button" class="overview-entry" id="sourceHealthBtn">View source health <span>→</span></button>
+      <button type="button" class="overview-entry" id="apixBtn">Open APIx dashboard <span>→</span></button>
+      <button type="button" class="overview-entry" id="cpiBtn">Open CPI comparison <span>→</span></button>
+
+      <div class="result" id="resultBox" hidden></div>
+    </section>
+
+  </main>
+
+  <section class="card ml-prediction-card">
+    <div class="dots"><span></span><span></span><span></span></div>
+    <div class="card-header">
+      <h2>Live route forecast</h2>
+      <p>Model-backed forecast with a safe baseline fallback for route and horizon views.</p>
+    </div>
+    <div class="ml-prediction-body">
+      <div class="ml-prediction-note">
+        <div class="eyebrow">CURRENT STATUS</div>
+        <div class="ml-status-badge">Model-backed + fallback</div>
+        <p>The forecast layer is live and uses the trained fare model when available. When a route lacks enough usable coverage, the app automatically falls back to the recent-median baseline so the experience stays reliable.</p>
+      </div>
+      <button type="button" class="btn btn-blue" id="forecastBtn">Open forecast <span>→</span></button>
+    </div>
+  </section>
+
+  <section class="route-details card" id="routeDetails" hidden>
+    <button type="button" class="back-link" id="backToQuery">← Back to query</button>
+    <div class="details-heading">
+      <div>
+        <div class="eyebrow">QUERY OUTPUT</div>
+        <h2 id="detailsTitle">Route intelligence</h2>
+        <p id="detailsMeta">Live values from the canonical quote database</p>
+      </div>
+      <span class="score-badge mono" id="detailsCount">0 quotes</span>
+    </div>
+    <div class="query-context" id="queryContext"></div>
+    <div class="index-strip" id="indexStrip">
+      <div><span class="detail-label">Airfare Price Index</span><strong class="index-number" id="indexValue">—</strong></div>
+      <div><span class="detail-label">Base period</span><strong id="indexBase">—</strong></div>
+      <div><span class="detail-label">Current period</span><strong id="indexCurrent">—</strong></div>
+      <div><span class="detail-label">Route basket</span><strong id="indexCoverage">—</strong></div>
+    </div>
+    <div class="detail-panel index-trend-panel">
+      <span class="detail-label">Airfare Price Index trend</span>
+      <svg class="index-chart" id="indexChart" width="900" height="180" viewBox="0 0 900 180" role="img" aria-label="Airfare Price Index trend"></svg>
+      <p class="detail-note">Daily observed index. Base period equals 100. Traffic-based route weights from the DGCA route basket (2025-01 to 2026-05).</p>
+    </div>
+    <div class="chart-toolbar">
+      <div>
+        <span class="detail-label">Compare live median fares by</span>
+        <div class="horizon-tabs" id="detailHorizons">
+          <button type="button" data-days="all">All horizons</button>
+          <button type="button" data-days="1">T+1</button>
+          <button type="button" data-days="7">T+7</button>
+          <button type="button" data-days="15">T+15</button>
+          <button type="button" data-days="30">T+30</button>
+          <button type="button" data-days="45">T+45</button>
+        </div>
+      </div>
+      <div class="chart-tabs" role="tablist">
+        <button type="button" class="chart-tab active" data-series="airline">Airlines</button>
+        <button type="button" class="chart-tab" data-series="ota">OTAs</button>
+        <button type="button" class="chart-replay" id="replayChart">Play data motion</button>
+      </div>
+    </div>
+    <div class="detail-panel chart-panel">
+      <div class="chart-legend" id="chartLegend"></div>
+      <div class="chart-scroll"><svg class="line-chart" id="lineChart" viewBox="0 0 1100 360" role="img" aria-label="Advance booking horizon fare comparison chart"></svg></div>
+      <div class="chart-axis-note" id="chartAxisNote">X-axis: advance-booking horizon · Y-axis: median total fare in INR · observed database values</div>
+    </div>
+    <div class="detail-grid detail-grid-lower">
+      <div class="detail-panel">
+        <span class="detail-label">Source comparison</span>
+        <div class="detail-list" id="sourceList"></div>
+      </div>
+      <div class="detail-panel">
+        <span class="detail-label">Airline comparison</span>
+        <div class="detail-list" id="airlineList"></div>
+      </div>
+    </div>
+    <div class="detail-panel recent-panel">
+      <span class="detail-label">Recent flights in this query</span>
+      <div class="flight-table-wrap">
+        <table class="flight-table">
+          <thead><tr><th>Airline</th><th>Flight</th><th>Departure</th><th>Arrival</th><th>Source</th><th>Total fare</th></tr></thead>
+          <tbody id="flightRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="market-overview card" id="marketOverview" hidden>
+    <button type="button" class="back-link" id="overviewBack">← Back to query</button>
+    <div class="details-heading">
+      <div><div class="eyebrow">BASKET VIEW</div><h2>Indian airfare market overview</h2><p>Observed Economy fares across the configured route basket.</p></div>
+      <span class="score-badge mono" id="overviewQuotes">—</span>
+    </div>
+    <div class="overview-stats" id="overviewStats"></div>
+    <div class="detail-panel overview-panel">
+      <span class="detail-label">Route median fare by advance horizon</span>
+      <div class="overview-table-wrap"><table class="overview-table"><thead><tr><th>Route</th><th>T+1</th><th>T+7</th><th>T+15</th><th>T+30</th><th>T+45</th><th>Quotes</th></tr></thead><tbody id="overviewRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <div class="hairline"></div>
+        <h2>ABOUT</h2>
+        <p>
+          UDAANKOSH is an Indian real-time airfare price index, built for Smart India
+          Hackathon 2026, addressing Problem Statement SIH0264 — augmenting India's
+          Consumer Price Index (CPI) with automated, high-frequency airfare data.
+        </p>
+      </div>
+      <div class="about-plane" id="contact">
+        <img height="200" width="400" src="plane.png" alt="Plane Illustration" />
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-line"></span>
+    <span class="footer-text">Team Skylytics</span>
+    <span class="footer-line"></span>
+  </footer>
+
+</div>
+<script src="script.js?v=20260910-final-definitive"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+data/*.db-shm
+data/*.db-wal
+chrome_cleartrip/
+cleartrip_cookies.json
+cookies.txt
+_debug/
+logs/
