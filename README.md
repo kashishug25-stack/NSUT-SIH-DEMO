@@ -15,7 +15,7 @@ Airfare movement in India is fragmented across airlines and online travel aggreg
 
 ## 3. Proposed Solution
 
-**Udaankosh** collects real-time fare data from multiple online travel sources (airline/OTA portals), standardizes the raw observations into route-level statistics, and calculates a **Route- & Market-level Airfare Price Index (APIx)**. The platform delivers interactive route and market intelligence through a live dashboard, turning fragmented individual ticket quotes into a standardized, comparable indicator of domestic airfare movement.
+**Udaankosh** collects real-time fare data from multiple online travel sources (airline/OTA portals), standardizes the raw observations into route-level statistics, and calculates a **Route- & Market-level Airfare Price Index (APIx)**. The platform delivers interactive route and market intelligence through a live multi-page dashboard, turning fragmented individual ticket quotes into a standardized, comparable indicator of domestic airfare movement.
 
 **How it works:**
 Multiple Fare Sources → Structured Fare Database → Route Intelligence → Airfare Price Index → Market-Level Insights
@@ -29,53 +29,49 @@ Multiple Fare Sources → Structured Fare Database → Route Intelligence → Ai
 
 ## 4. Key Features
 
-- Multi-source fare collection (airline & OTA portals)
+- Multi-source fare collection (airline & OTA portals) via automated scrapers
 - Structured SQLite fare database
-- Route- and market-level Airfare Price Index calculation
+- Route- and market-level Airfare Price Index (APIx) calculation
 - Multi-horizon fare tracking (T+1, T+7, T+15, T+30, T+45)
-- Interactive dashboard: Route Intelligence, Airline Comparison, OTA Comparison, Market Overview, Horizon Analysis
+- Multi-page dashboard: Home, APIx, CPI, Route, Market Overview, Prediction, Source Health
 - Read-only API layer serving collected and processed data
-- Deduplication, outlier detection, and sold-out/missing-data handling
+- Scheduled/automated data collection via Windows Task Scheduler scripts
+- ML readiness pipeline for future airfare forecasting
 
 ## 5. Technology Stack
 
-- **Frontend:** React, Tailwind CSS
-- **Backend:** Python, FastAPI (read-only API server)
-- **Data Layer:** SQLite (structured fare observations)
-- **Scraping:** Playwright (Cleartrip, EaseMyTrip, Yatra)
-- **Analytics:** Route median fare → price index computation
-- **Deployment:** Docker / Cloud
+- **Frontend:** HTML, CSS, JavaScript (multi-page: `index.html`, `apix.html`, `cpi.html`, `route.html`, `market-overview.html`, `prediction.html`, `source-health.html`)
+- **Backend:** Python (`api_server.py`)
+- **Data Layer:** SQLite (`data/`)
+- **Scraping:** Python-based scrapers (`scraper/`) for Cleartrip, EaseMyTrip, Yatra
+- **ML / Forecasting:** `ml_data_readiness.py`, `train_ml_model.py`
+- **Automation:** Windows Task Scheduler batch scripts (`run_scheduler.bat`, `setup_scheduler.bat`, `remove_scheduler.bat`)
+- **Testing:** `tests/`, `validate_db.py`
 
 ## 6. Architecture
 
-See [docs/architecture.md](docs/architecture.md).
+See [docs/architecture.md](docs/architecture.md) *(or `PROJECT_HANDOFF.md` for a full technical handoff)*.
 
 ```text
 Multiple Fare Sources (Cleartrip, EaseMyTrip, Yatra)
         |
         v
-Data Collection (Playwright scrapers)
+scraper/  →  Automated fare collection
         |
         v
-Structured Fare Database (SQLite)
+data/  →  Structured SQLite fare database
         |
         v
-Backend API (Python + FastAPI)
+api_server.py  →  Backend API
         |
         v
-Analytics (Route Intelligence + Index Methodology)
+Analytics  →  Route Intelligence + APIx Index Methodology
         |
         v
-Frontend Dashboard — Udaankosh (React + Tailwind CSS)
+Frontend Dashboard — Udaankosh
+(index.html, apix.html, cpi.html, route.html,
+ market-overview.html, prediction.html, source-health.html)
 ```
-
-### API Endpoints (read-only)
-
-- `/api/route`
-- `/api/route-horizons`
-- `/api/index`
-- `/api/index-series`
-- `/api/market-overview`
 
 ### Index Methodology
 
@@ -91,74 +87,92 @@ L = Σ(P₁ᵢ × Q₀ᵢ) / Σ(P₀ᵢ × Q₀ᵢ) × 100
 ## 7. Repository Structure
 
 ```text
-UDAANKOSH-APIX/
+NSUT_SIH_SKYLYTICS/
 ├── README.md
-├── SUBMISSION_GUIDE.md
-├── submission/
-│   ├── PRESENTATION.md
-│   └── DEMO.md
-├── src/
-│   ├── scraper/          # Playwright scrapers (Cleartrip, EaseMyTrip, Yatra)
-│   ├── api/              # FastAPI backend
-│   └── frontend/         # React + Tailwind dashboard (Udaankosh)
-├── data/
-│   └── fares.db          # SQLite canonical fare database
-├── docs/
-│   └── architecture.md
-├── assets/
-│   └── screenshots/
-│       └── README.md
+├── DATA_REQUIRED_FROM_USER.md
+├── PROJECT_HANDOFF.md
+├── ML_EXECUTION_CHECKLIST.md
+├── ML_IMPLEMENTATION_PLAN.md
+├── ML_READINESS_CHECKLIST.md
 ├── requirements.txt
 ├── .gitignore
-└── LICENSE
+│
+├── api_server.py              # Backend API server
+├── run_all.py                 # Runs the full pipeline
+├── ml_data_readiness.py       # ML data readiness checks
+├── train_ml_model.py          # Model training
+├── validate_db.py             # Database validation
+│
+├── index.html / script.js / style.css     # Home page
+├── apix.html / apix-page.js                # APIx index page
+├── cpi.html / cpi-page.js                  # CPI comparison page
+├── route.html / route-page.js              # Route Intelligence page
+├── market-overview.html / overview-page.js # Market Overview page
+├── prediction.html / prediction-page.js    # Forecasting page
+├── source-health.html / source-health.js   # Source Health monitor
+│
+├── plane.png / hero-bg.mp4 / hero-poster.jpg.jpeg   # UI assets
+│
+├── start_udaankosh.bat        # Launches the Udaankosh website
+├── run_scheduler.bat          # Runs the scheduled scraper job
+├── setup_scheduler.bat        # Sets up Windows Task Scheduler job
+├── remove_scheduler.bat       # Removes the scheduled job
+│
+├── data/                      # SQLite fare database
+├── scraper/                   # Playwright/Python scrapers (Cleartrip, EaseMyTrip, Yatra)
+└── tests/                     # Test suite
 ```
 
 ### What goes where?
 
 | Item | Location |
 |---|---|
-| Scrapers (Cleartrip, EaseMyTrip, Yatra) | `src/scraper/` |
-| Backend API | `src/api/` |
-| Udaankosh dashboard frontend | `src/frontend/` |
+| Scrapers (Cleartrip, EaseMyTrip, Yatra) | `scraper/` |
+| Backend API | `api_server.py` |
+| Udaankosh dashboard pages | root (`*.html`, `*-page.js`) |
 | SQLite fare database | `data/` |
-| Architecture / technical documentation | `docs/` |
-| Project screenshots | `assets/screenshots/` |
-| Final PPT / presentation | `submission/` |
-| Demo video link | `submission/DEMO.md` |
+| Automation / scheduling | `*.bat` scripts |
+| ML pipeline | `ml_data_readiness.py`, `train_ml_model.py` |
+| Tests / validation | `tests/`, `validate_db.py` |
+| Project handoff & planning docs | `PROJECT_HANDOFF.md`, `ML_*.md` |
 | Project overview | `README.md` |
 
 ## 8. Final Presentation
 
-Keep your final SIH presentation in the repository whenever the file size allows it.
-
-See [submission/PRESENTATION.md](submission/PRESENTATION.md) for the required format.
-
-If the PPT is too large for GitHub, use Google Drive/OneDrive and put the accessible viewer link in `submission/PRESENTATION.md`.
+Keep your final SIH presentation in the repository whenever the file size allows it. If too large for GitHub, use Google Drive/OneDrive and link it here.
 
 ## 9. Demo Video
 
-Add the YouTube/Google Drive link in [submission/DEMO.md](submission/DEMO.md).
+Add the YouTube/Google Drive demo link here.
 
 ## 10. Screenshots / Prototype Photos
 
-Add dashboard screenshots (Route Intelligence, Airline Comparison, OTA Comparison, Market Overview, Horizon Analysis) to:
-
-`assets/screenshots/`
-
-See [assets/screenshots/README.md](assets/screenshots/README.md) for examples and naming conventions.
+Add dashboard screenshots (Home, APIx, CPI, Route, Market Overview, Prediction, Source Health) to an `assets/screenshots/` folder.
 
 ## 11. Installation
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
-cd UDAANKOSH-APIX
+cd NSUT_SIH_SKYLYTICS
 pip install -r requirements.txt
 ```
 
 ## 12. Run
 
+**Quick start (Windows):**
+Double-click `start_udaankosh.bat` — this launches the backend API server and opens the Udaankosh website (`index.html`) with all pages (APIx, CPI, Route, Market Overview, Prediction, Source Health) connected and ready.
+
+**Manual start:**
 ```bash
-uvicorn src.api.main:app --reload
+python api_server.py
+```
+Then open `index.html` in a browser.
+
+**Optional — scheduled data collection:**
+```bash
+setup_scheduler.bat   # sets up automated scraping via Task Scheduler
+run_scheduler.bat      # runs a scrape job on demand
+remove_scheduler.bat   # removes the scheduled job
 ```
 
 ## 13. Current Data Snapshot
@@ -172,11 +186,8 @@ uvicorn src.api.main:app --reload
 
 - Integrate official DGCA passenger traffic data for accurate route weights
 - Integrate MoSPI CPI data for cross-referencing with official inflation indicators
-- Build a robust data-quality pipeline (deduplication, outlier detection, completeness checks)
+- Complete ML readiness pipeline and train forecasting models (see `ML_IMPLEMENTATION_PLAN.md`)
 - Extend to a longer time-series dataset for trend robustness
-- Add airfare forecasting/ML with confidence intervals
+- Add airfare forecasting/ML with confidence intervals (`prediction.html`)
 - Scale from 8 routes / 5 horizons / 3 sources → more routes, more sources, a national-level indicator
 
-## Important
-
-Before submission, make sure the repository is accessible to reviewers. Do **not** upload passwords, API keys, access tokens, `.env` files containing secrets, or other confidential credentials.
