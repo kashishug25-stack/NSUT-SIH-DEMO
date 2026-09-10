@@ -139,17 +139,12 @@ NSUT_SIH_SKYLYTICS/
 
 ## 8. Final Presentation
 
-Keep your final SIH presentation in the repository whenever the file size allows it. If too large for GitHub, use Google Drive/OneDrive and link it here.
+https://drive.google.com/drive/folders/1RJizTzI2wcJcFSHOuUjSkCLpNCqo9eEn?usp=sharing
 
 ## 9. Demo Video
+https://drive.google.com/drive/folders/1d6qg0TSqGZVLeYEBzR4QczcbVH8UClt2
 
-Add the YouTube/Google Drive demo link here.
-
-## 10. Screenshots / Prototype Photos
-
-Add dashboard screenshots (Home, APIx, CPI, Route, Market Overview, Prediction, Source Health) to an `assets/screenshots/` folder.
-
-## 11. Installation
+## 10. Installation
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
@@ -157,7 +152,7 @@ cd NSUT_SIH_SKYLYTICS
 pip install -r requirements.txt
 ```
 
-## 12. Run
+## 11. Run
 
 **Quick start (Windows):**
 Double-click `start_udaankosh.bat` — this launches the backend API server and opens the Udaankosh website (`index.html`) with all pages (APIx, CPI, Route, Market Overview, Prediction, Source Health) connected and ready.
@@ -175,19 +170,21 @@ run_scheduler.bat      # runs a scrape job on demand
 remove_scheduler.bat   # removes the scheduled job
 ```
 
-## 13. Current Data Snapshot
+## 12. Current Data Snapshot
 
 - **8** routes tracked
 - **5** booking horizons (T+1, T+7, T+15, T+30, T+45)
 - **14,000+** fare observations
 - **3** fare sources: Cleartrip, EaseMyTrip, Yatra
 
-## 14. Future Scope
+## 13. Future Scope
 
 - Integrate official DGCA passenger traffic data for accurate route weights
 - Integrate MoSPI CPI data for cross-referencing with official inflation indicators
 - Complete ML readiness pipeline and train forecasting models (see `ML_IMPLEMENTATION_PLAN.md`)
 - Extend to a longer time-series dataset for trend robustness
 - Add airfare forecasting/ML with confidence intervals (`prediction.html`)
+- Migrate from SQLite to PostgreSQL to support a national-scale deployment with larger, concurrent data volumes across more routes and sources
+- Expand data collection to include more granular airline-level details (carrier, aircraft type, fare class, baggage/refund policy) alongside route-level fares, for deeper airline-wise comparison
 - Scale from 8 routes / 5 horizons / 3 sources → more routes, more sources, a national-level indicator
 
