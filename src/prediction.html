@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Forecast - UDAANKOSH</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="analysis-page">
+  <div class="page">
+    <nav class="navbar">
+      <a class="logo" href="/"><span>UDAANKOSH</span></a>
+      <a class="back-link" href="/">Back to query</a>
+    </nav>
+
+    <main class="dedicated-page">
+      <div class="eyebrow">LIVE FORECAST</div>
+      <h1>Route forecast</h1>
+      <p id="forecastMeta">Loading forecast setup...</p>
+      <div class="query-context" id="forecastContext"></div>
+      <div class="action-row action-row-wrap">
+        <button type="button" class="secondary-btn" id="exportForecastCsv">Download forecast summary CSV</button>
+      </div>
+      <p class="small-note">This page shows the latest forecast values from the trained model when available, with a recent-median baseline fallback if the model is not ready for a route.</p>
+      <div class="horizon-tabs" id="forecastHorizons">
+        <button type="button" data-days="1">T+1</button>
+        <button type="button" class="active" data-days="7">T+7</button>
+        <button type="button" data-days="15">T+15</button>
+        <button type="button" data-days="30">T+30</button>
+        <button type="button" data-days="45">T+45</button>
+      </div>
+
+      <div class="forecast-controls">
+        <div class="forecast-control">
+          <label class="detail-label" for="forecastRouteSelect">Route scope</label>
+          <div class="forecast-select-wrap">
+            <select id="forecastRouteSelect">
+              <option value="all">All routes</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <section class="index-strip">
+        <div><span class="detail-label">Model</span><strong id="forecastModel">Recent median baseline</strong></div>
+        <div><span class="detail-label">Data needed</span><strong>Historical route + horizon</strong></div>
+        <div><span class="detail-label">Status</span><strong id="forecastStatus">Ready</strong></div>
+        <div><span class="detail-label">Current route</span><strong id="forecastRoute">—</strong></div>
+        <div><span class="detail-label">Current horizon</span><strong id="forecastHorizon">T+7</strong></div>
+      </section>
+
+      <section class="detail-panel dedicated-chart-panel">
+        <div class="chart-toolbar">
+          <div>
+            <span class="detail-label">Forecast evidence</span>
+            <div class="chart-legend" id="forecastLegend"></div>
+          </div>
+        </div>
+        <div class="chart-scroll">
+          <svg id="forecastChart" class="forecast-chart" viewBox="0 0 960 260" role="img" aria-label="Forecast values by route"></svg>
+        </div>
+      </section>
+
+      <section class="detail-panel overview-panel">
+        <span class="detail-label">Forecast inputs</span>
+        <div class="overview-table-wrap">
+          <table class="overview-table">
+            <thead>
+              <tr>
+                <th>Route</th>
+                <th>Horizon</th>
+                <th>Last observed median</th>
+                <th>Forecast value</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody id="forecastRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="prediction-page.js"></script>
+</body>
+</html>
