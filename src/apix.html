@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>APIx Dashboard - UDAANKOSH</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="analysis-page">
+<div class="page">
+  <nav class="navbar"><a class="logo" href="/"><span>UDAANKOSH</span></a><a class="back-link" href="/">Back to query</a></nav>
+  <main class="dedicated-page">
+    <div class="eyebrow">APIX DASHBOARD</div>
+    <h1>Airfare Price Index</h1>
+    <p id="apixMeta">Loading APIx observations...</p>
+    <div class="query-context" id="apixContext"></div>
+    <section class="index-strip">
+      <div><span class="detail-label">APIx value</span><strong class="index-number" id="apixValue">-</strong></div>
+      <div><span class="detail-label">Base period</span><strong id="apixBase">-</strong></div>
+      <div><span class="detail-label">Current period</span><strong id="apixCurrent">-</strong></div>
+      <div><span class="detail-label">Route basket</span><strong id="apixCoverage">-</strong></div>
+    </section>
+    <section class="detail-panel dedicated-chart-panel">
+      <div class="chart-toolbar">
+        <div>
+          <span class="detail-label">Select horizon</span>
+          <div class="horizon-tabs" id="apixHorizons">
+            <button type="button" data-days="1">T+1</button>
+            <button type="button" data-days="7" class="active">T+7</button>
+            <button type="button" data-days="15">T+15</button>
+            <button type="button" data-days="30">T+30</button>
+            <button type="button" data-days="45">T+45</button>
+          </div>
+        </div>
+      </div>
+      <svg class="line-chart dedicated-chart" id="apixChart" viewBox="0 0 1100 360"></svg>
+      <p class="chart-axis-note">X-axis: collection date. Y-axis: APIx value. Base period equals 100.</p>
+    </section>
+    <section class="detail-panel overview-panel">
+      <span class="detail-label">Daily APIx observations</span>
+      <div class="overview-table-wrap">
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th>Observed date</th>
+              <th>APIx value</th>
+            </tr>
+          </thead>
+          <tbody id="apixRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="apix-page.js"></script>
+</body>
+</html>
